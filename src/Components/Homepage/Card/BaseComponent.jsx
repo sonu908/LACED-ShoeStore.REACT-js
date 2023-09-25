@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import CardStructure from "./CardStructure";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -26,24 +24,21 @@ function BaseComponent() {
   return (
     <div>
       {Loading ? (
-        <div>hghg</div>
+        <div>Loading</div>
       ) : (
-        <div className="p-5">
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid
-              container
-              spacing={{ xs: 4, md: 6 }}
-              columns={{ xs: 4, sm: 2, md: 12 }}
-            >
-              {data.map((item, index) => (
-                <Grid item xs={2} sm={4} md={4} key={index}>
+
+          <div className="bg-white">
+          <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+            <h2 className="sr-only">Products</h2>
+    
+            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+              {data.map((item) => (
                   <Link to={`/view/${item.id}`}>
-                    <CardStructure item={item} />
-                  </Link>
-                </Grid>
+                  <CardStructure item={item} />
+                </Link>
               ))}
-            </Grid>
-          </Box>
+            </div>
+          </div>
         </div>
       )}
     </div>

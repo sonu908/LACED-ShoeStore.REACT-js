@@ -1,74 +1,138 @@
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Unstable_Grid2";
-import Login from "./Login";
-import Register from "./Register";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import StaticNav from "./StaticNav";
 
-function Landing() {
-  const [selectedTab, setSelectedTab] = useState(0);
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleTabClick = (index) => {
-    setSelectedTab(index);
+  const url = "http://localhost:4000";
+
+  const handleUsernameChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    console.log(email, password);
+    try {
+      const response = await axios.post(`${url}/details/login`, {
+        email,
+        password,
+      });
+
+      navigate("/LoginSuccess");
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.error);
+      } else {
+        alert("An error occurred while trying to log in.");
+      }
+    }
   };
 
   return (
     <>
-      <div>
-        <header className="p-4 text-3xl font-bold border-black border-b-2">
-          <h3>LACED.</h3>
-        </header>
+    
+    <StaticNav/>
+    
+    <div className=" px-6 py-24 sm:py-32 lg:px-8">
+      {/* Background gradient */}
+      <div
+        className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
+        aria-hidden="true"
+      >
+        <div
+          className="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]"
+          style={{
+            clipPath:
+              "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
+          }}
+        />
       </div>
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={0} columns={16}>
-          <Grid xs={8}>
-            <div className="p-8 m-auto font-sans font-bold">
-              <p className="text-8xl">
-                Unleash your inner sneakerhead with our exclusive collections.
-              </p>
-            </div>
-          </Grid>
-          <Grid xs={8}>
-            <div className="flex items-center  h-screen p-9">
-              <div>
-                <Tabs>
-                  <TabList className="flex gap-5">
-                    <Tab
-                      className={`text-3xl font-sans  tracking-widest mb-5 ${
-                        selectedTab === 0
-                          ? "text-black font-bold"
-                          : "text-gray-500 , font-normal"
-                      }`}
-                      onClick={() => handleTabClick(0)}
-                    >
-                      LOGIN
-                    </Tab>
-                    <Tab
-                      className={`text-3xl font-sans  tracking-widest mb-5 ${
-                        selectedTab === 1
-                          ? "text-black font-bold"
-                          : "text-gray-500 , font-normal"
-                      }`}
-                      onClick={() => handleTabClick(1)}
-                    >
-                      REGISTER
-                    </Tab>
-                  </TabList>
 
-                  <TabPanel>
-                    <Login />
-                  </TabPanel>
-                  <TabPanel>
-                    <Register />
-                  </TabPanel>
-                </Tabs>
-              </div>{" "}
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          {/* Logo */}
+          <img
+            className="mx-auto h-10 w-auto"
+            src="https://logodix.com/logo/340362.png"
+            alt="LACED"
+          />
+          {/* Form title */}
+          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            Sign in to your account
+          </h2>
+        </div>
+
+        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          {/* Login form */}
+          <form className="space-y-6" onSubmit={handleLogin}>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Email address
+              </label>
+              <div className="mt-2">
+                <input
+                  type="text"
+                  id="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={handleUsernameChange}
+                  autoComplete="email"
+                  required
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
             </div>
-          </Grid>
-        </Grid>
-      </Box>
+
+            <div>
+              <div className="mt-2">
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  autoComplete="current-password"
+                  required
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Sign in
+              </button>
+            </div>
+          </form>
+
+          <p className="mt-10 text-center text-sm text-gray-500">
+            Not a member?{" "}
+            <Link
+              to="/register"
+              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+            >
+              SignUP
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
     </>
+    
   );
 }
-
-export default Landing;
