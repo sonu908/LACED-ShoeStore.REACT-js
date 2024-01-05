@@ -1,6 +1,7 @@
 import { StarIcon } from "@heroicons/react/20/solid";
 import { Button } from "@mui/material";
 import NavWlogo from "./NavWlogo"
+import { useState } from "react";
 
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
@@ -9,9 +10,20 @@ function classNames(...classes) {
 }
 
 export default function Page({ ViewSneaker }) {
+
+  const [selectedSize, setSelectedSize] = useState(null);
+
+  // Convert the sizes string to an array
+  const sizesArray = ViewSneaker.size[0]
+  const handleSizeClick = (size) => {
+    setSelectedSize(size);
+  };
+
+console.log(ViewSneaker.size[0]);
+
   return (
     <div className="bg-white">
-      <NavWlogo/>
+      <NavWlogo />
       <div className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
         <div>
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -24,6 +36,7 @@ export default function Page({ ViewSneaker }) {
               <div className="mt-6">
                 <h3 className="sr-only">Reviews</h3>
                 <div className="flex items-center">
+                  
                   <div className="flex items-center">
                     {[0, 1, 2, 3, 4].map((rating) => (
                       <StarIcon
@@ -56,13 +69,16 @@ export default function Page({ ViewSneaker }) {
                 </div>
 
                 {/* Sizes */}
-                <div className="mt-10">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium text-gray-900">
-                      Available Sizes
-                    </h3>
-                    <Button variant="outlined">{ViewSneaker.size}</Button>
-                  </div>
+                <div className="mt-2 flex space-x-2">
+                  {sizesArray.map((size) => (
+                    <Button
+                      key={size}
+                      variant={selectedSize === size ? "contained" : "outlined"}
+                      onClick={() => handleSizeClick(size)}
+                    >
+                      {size}
+                    </Button>
+                  ))}
                 </div>
 
                 <button
@@ -78,22 +94,22 @@ export default function Page({ ViewSneaker }) {
         <div className="grid grid-cols-2 grid-rows-2 gap-4 sm:gap-6 lg:gap-8">
           <img
             src={ViewSneaker.image_url}
-            alt="Walnut card tray with white powder coated steel divider and 3 punchout holes."
+            alt=""
             className="rounded-lg  "
           />
           <img
             src={ViewSneaker.image_urltwo}
-            alt="Top down view of walnut card tray with embedded magnets and card groove."
+            alt=" "
             className="rounded-lg "
           />
           <img
             src={ViewSneaker.image_urlthree}
-            alt="Side of walnut card tray with card groove and recessed card area."
+            alt=""
             className="rounded-lg "
           />
           <img
             src={ViewSneaker.image_urlfour}
-            alt="Walnut card tray filled with cards and card angled in dedicated groove."
+            alt=" "
             className="rounded-lg "
           />
         </div>
